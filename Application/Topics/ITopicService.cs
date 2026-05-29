@@ -8,8 +8,8 @@ namespace Application.Topics
     {
         Task<List<Topic>> GetTopicsAsync();
         Task<Topic> GetTopicAsync(Guid id);
-        Task<Topic> CreateTopicAsync(TopicId topicRequestDto);
-        Task<Topic> UpdateTopicAsync(TopicId id, Topic topicRequestDto);
-        Task DeleteTopicAsync(TopicId id);
+        Task<Topic> CreateTopicAsync(Topic topicRequestDto);
+        Task<Topic> UpdateTopicAsync(Guid id, Topic topicRequestDto);
+        Task DeleteTopicAsync(Guid id);
     }
 }

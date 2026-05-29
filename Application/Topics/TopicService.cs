@@ -15,16 +15,16 @@ namespace Application.Topics
             this._logger = logger;
         }
 
-
-        public Task<Topic> CreateTopicAsync(TopicId topicRequestDto)
+        public Task<Topic> CreateTopicAsync(Topic topicRequestDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteTopicAsync(TopicId id)
+        public Task DeleteTopicAsync(Guid id)
         {
             throw new NotImplementedException();
         }
+
         public Task<Topic> GetTopicAsync(Guid id)
         {
             throw new NotImplementedException();
@@ -33,12 +33,13 @@ namespace Application.Topics
         public async Task<List<Topic>> GetTopicsAsync()
         {
             var topic = await dbContext.Topics
-                .AsNoTracking()
-                .ToListAsync();
+                    .AsNoTracking()
+                    .ToListAsync();
             return topic;
+
         }
 
-        public Task<Topic> UpdateTopicAsync(TopicId id, Topic topicRequestDto)
+        public Task<Topic> UpdateTopicAsync(Guid id, Topic topicRequestDto)
         {
             throw new NotImplementedException();
         }
