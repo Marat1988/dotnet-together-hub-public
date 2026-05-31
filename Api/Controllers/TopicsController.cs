@@ -1,3 +1,4 @@
+using Application.Dtos;
 using Application.Topics;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,26 @@ namespace API.Controllers
         public async Task<ActionResult<Topic>> GetTopic(Guid id)
         {
             return Ok(await topicService.GetTopicAsync(id));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<TopicResponseDto>> CreateTopic(CreateTopicDto dto)
+        {
+            return Ok(await topicService.CreateTopicAsync(dto));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TopicResponseDto>> UpdateTopic(Guid id, [FromBody] UpdateTopicDto dto)
+        {
+            return Ok(await topicService.UpdateTopicAsync(id, dto));
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> UpdateTopic(Guid id)
+        {
+            await topicService.DeleteTopicAsync(id);
+            return NoContent();
         }
 
     }

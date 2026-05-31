@@ -38,19 +38,57 @@ namespace Application.Topics
 
         }
 
-        public Task<Topic> CreateTopicAsync(Topic topicRequestDto)
+        public async Task<TopicResponseDto> CreateTopicAsync(CreateTopicDto dto)
         {
-            throw new NotImplementedException();
+            Topic newTopic = Topic.Create(
+                TopicId.Of(Guid.NewGuid()),
+                dto.Title,
+                dto.EventStart,
+                dto.Summary,
+                dto.TopicType,
+                Location.Of(dto.Location.City, dto.Location.Street)
+                );
+            await dbContext.Topics.AddAsync(newTopic);
+            await dbContext.SaveChangesAsync(CancellationToken.None);
+            return newTopic.ToTopicResponseDto();
         }
 
-        public Task DeleteTopicAsync(Guid id)
+        public async Task DeleteTopicAsync(Guid id)
         {
-            throw new NotImplementedException();
+            TopicId topicId = TopicId.Of(id);
+            var topic = await dbContext.Topics.FindAsync([topicId]);
+            if (topic is null)
+            {
+                throw new TopicNotFoundException(id);
+            }
+
+            dbContext.Topics.Remove(topic);
+            await dbContext.SaveChangesAsync(CancellationToken.None);
         }
 
-        public Task<Topic> UpdateTopicAsync(Guid id, Topic topicRequestDto)
+        public async Task<TopicResponseDto> UpdateTopicAsync(Guid id, UpdateTopicDto dto)
         {
-            throw new NotImplementedException();
+            TopicId topicId = TopicId.Of(id);
+            var topic = await dbContext.Topics.FindAsync([topicId]);
+            if (topic is null)
+            {
+                throw new TopicNotFoundException(id);
+            }
+
+            topic.Title = dto.Title ?? topic.Title;
+            topic.Summary = dto.Summary ?? topic.Summary;
+            topic.TopicType = dto.TopicType ?? topic.TopicType;
+
+
+            topic.EventStart = dto.EventStart;
+            topic.Location = Location.Of(
+                dto.Location.City,
+                dto.Location.Street);
+
+            await dbContext.SaveChangesAsync(CancellationToken.None);
+            return topic.ToTopicResponseDto();
+
+
         }
     }
 }
