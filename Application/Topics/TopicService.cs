@@ -1,8 +1,5 @@
 ﻿using Application.Data.DataBaseContext;
-using Application.Dtos;
-using Application.Extensions;
-using Domain.ValueObjects;
-using Microsoft.Extensions.Logging;
+
 
 namespace Application.Topics
 {
